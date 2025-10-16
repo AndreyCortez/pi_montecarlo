@@ -31,10 +31,9 @@ void montecarlo_par(uint64_t iteracoes)
 
     #pragma omp parallel
     {
-        #pragma omp for private(count_local) reduction(+:count_global)
-        for (uint64_t i = 0; i < iteracoes/NUM_THREADS; i++)
+        #pragma omp for private(x, y) reduction(+:count_global)
+        for (uint64_t i = 0; i < iteracoes; i++)
         {
-            if (i % 1000 == 0) printf("%d\n", i);
             double x = (double)rand()/RAND_MAX;
             double y = (double)rand()/RAND_MAX;
 
@@ -42,7 +41,7 @@ void montecarlo_par(uint64_t iteracoes)
         }
     }
 
-    printf("%f\n", (double)dentro*4.0/M);
+    printf("%f\n", (double)count_global*4.0/M);
 }
 
 int main()
