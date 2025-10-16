@@ -5,12 +5,14 @@
 
 #define M 10000000000
 
+
 void montecarlo_seq(uint64_t iteracoes)
 {
     uint64_t dentro = 0;
 
     for (uint64_t i = 0; i < iteracoes; i++)
     {
+        if (i % 1000 = 0) printf("%d\n", i);
         double x = (double)rand()/RAND_MAX;
 
         double y = (double)rand()/RAND_MAX;
