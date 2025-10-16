@@ -3,7 +3,7 @@
 #include "omp.h"
 #include "stdint.h"
 
-#define M 10000000000
+#define M 1174068000
 
 
 void montecarlo_seq(uint64_t iteracoes)
