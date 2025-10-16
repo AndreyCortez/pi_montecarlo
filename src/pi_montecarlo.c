@@ -31,11 +31,12 @@ void montecarlo_par(uint64_t iteracoes)
 
     #pragma omp parallel
     {
+        double x, y;
         #pragma omp for private(x, y) reduction(+:count_global)
         for (uint64_t i = 0; i < iteracoes; i++)
         {
-            double x = (double)rand()/RAND_MAX;
-            double y = (double)rand()/RAND_MAX;
+            x = (double)rand()/RAND_MAX;
+            y = (double)rand()/RAND_MAX;
 
             if (x*x + y*y <= 1) count_global += 1;
         }
