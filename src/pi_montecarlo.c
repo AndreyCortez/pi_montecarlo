@@ -3,9 +3,7 @@
 #include "omp.h"
 #include "stdint.h"
 
-#define M 1174068000
-#define N_THREADS 10
-
+#define M 117406
 
 void montecarlo_seq(uint64_t iteracoes)
 {
@@ -35,8 +33,9 @@ void montecarlo_par(uint64_t iteracoes)
         #pragma omp for private(x, y) reduction(+:count_global)
         for (uint64_t i = 0; i < iteracoes; i++)
         {
-            x = (double)rand()/RAND_MAX;
-            y = (double)rand()/RAND_MAX;
+            unsigned int my_seed = omp_get_thread_num();
+            x = (double)rand_r(&my_seed)/RAND_MAX;
+            y = (double)rand_r(&my_seed)/RAND_MAX;
 
             if (x*x + y*y <= 1) count_global += 1;
         }
