@@ -27,15 +27,15 @@ void montecarlo_par(uint64_t iteracoes)
 {
     uint64_t count_global;
 
-    #pragma omp parallel
+    #pragma omp parallel private(x, y, seed)
     {
-        unsigned int my_seed = omp_get_thread_num();
+        unsigned int seed = omp_get_thread_num();
         double x, y;
-        #pragma omp for private(x, y) reduction(+:count_global)
+        #pragma omp for reduction(+:count_global)
         for (uint64_t i = 0; i < iteracoes; i++)
         {
-            x = (double)rand_r(&my_seed)/RAND_MAX;
-            y = (double)rand_r(&my_seed)/RAND_MAX;
+            x = (double)rand_r(&seed)/RAND_MAX;
+            y = (double)rand_r(&seed)/RAND_MAX;
 
             if (x*x + y*y <= 1) count_global += 1;
         }
