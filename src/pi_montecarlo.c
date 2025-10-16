@@ -4,6 +4,7 @@
 #include "stdint.h"
 
 #define M 1174068000
+#define N_THREADS 10
 
 
 void montecarlo_seq(uint64_t iteracoes)
@@ -23,11 +24,32 @@ void montecarlo_seq(uint64_t iteracoes)
     printf("%f\n", (double)dentro*4.0/M);
 }
 
+
+void montecarlo_par(uint64_t iteracoes)
+{
+    uint64_t count_global;
+
+    #pragma omp parallel
+    {
+        #pragma omp for private(count_local) reduction(+:count_global)
+        for (uint64_t i = 0; i < iteracoes/NUM_THREADS; i++)
+        {
+            if (i % 1000 == 0) printf("%d\n", i);
+            double x = (double)rand()/RAND_MAX;
+            double y = (double)rand()/RAND_MAX;
+
+            if (x*x + y*y <= 1) count_global += 1;
+        }
+    }
+
+    printf("%f\n", (double)dentro*4.0/M);
+}
+
 int main()
 {
     srand(49);
 
-    montecarlo_seq(M);
+    montecarlo_par(M);
 
     return 0;
 }
