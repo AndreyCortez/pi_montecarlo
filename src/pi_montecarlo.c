@@ -1,23 +1,31 @@
 #include "stdio.h"
-#include "random.h"
+#include "stdlib.h"
+#include "omp.h"
+#include "stdint.h"
 
+#define M 10000000000
 
-#define M 10000
+void montecarlo_seq(uint64_t iteracoes)
+{
+    uint64_t dentro = 0;
+
+    for (uint64_t i = 0; i < iteracoes; i++)
+    {
+        double x = (double)rand()/RAND_MAX;
+
+        double y = (double)rand()/RAND_MAX;
+
+        if (x*x + y*y <= 1) dentro += 1;
+    }
+
+    printf("%f\n", (double)dentro*4.0/M);
+}
 
 int main()
 {
     srand(49);
 
-    int dentro = 0;
+    montecarlo_seq(M);
 
-    for (int i = 0; i < M; i++)
-    {
-        x = (float)rand()/RAND_MAX;
-        y = (float)rand()/RAND_MAX;
-
-        if (x*x + y*y <= 1) dentro += 1;
-    }
-
-    printf("%f\n", float(dentro)/M);
     return 0;
 }
