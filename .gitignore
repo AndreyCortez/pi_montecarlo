@@ -1,0 +1,16 @@
+Ignorar os diretórios de compilação gerados pelo Makefile
+
+/bin/
+/obj/
+
+
+*.o
+*.out
+*.exe
+
+
+*~
+*.swp
+
+
+.vscode/
